@@ -1107,13 +1107,6 @@ profileAvatarImage.addEventListener("error", () => {
 });
 
 brandAvatarImage.addEventListener("error", () => {
-  if (profileImage !== DEFAULT_PROFILE_IMAGE) {
-    profileImage = DEFAULT_PROFILE_IMAGE;
-    saveProfileImage(profileImage);
-    renderProfileImage();
-    syncProfileImageInput();
-    return;
-  }
   brandAvatarImage.hidden = true;
   brandAvatarInitials.hidden = false;
 });
