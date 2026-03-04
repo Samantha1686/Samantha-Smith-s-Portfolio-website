@@ -923,6 +923,7 @@ function syncProfileImageInput() {
 }
 
 function toggleAdmin() {
+  if (!adminPanel || !adminToggle) return;
   const isHidden = adminPanel.hasAttribute("hidden");
   if (isHidden) {
     adminPanel.removeAttribute("hidden");
@@ -988,7 +989,9 @@ document.addEventListener("keydown", e => {
 searchInput.addEventListener("input", renderProjects);
 tagFilter.addEventListener("change", renderProjects);
 
-adminToggle.addEventListener("click", toggleAdmin);
+if (adminToggle) {
+  adminToggle.addEventListener("click", toggleAdmin);
+}
 
 projectForm.addEventListener("submit", e => {
   e.preventDefault();
@@ -1024,7 +1027,9 @@ adminList.addEventListener("click", e => {
     fillForm(project);
     if (adminPanel.hasAttribute("hidden")) {
       adminPanel.removeAttribute("hidden");
-      adminToggle.setAttribute("aria-expanded", "true");
+      if (adminToggle) {
+        adminToggle.setAttribute("aria-expanded", "true");
+      }
     }
   }
 });
