@@ -170,114 +170,6 @@ I’d love to connect and share more.
     </div>
   </dialog>
 
-  <!-- Admin Panel -->
-  <aside id="adminPanel" class="admin" hidden>
-    <div class="admin-head">
-      <h2>Edit Projects (local only)</h2>
-      <p class="muted">Changes save to this browser via localStorage.</p>
-      <div class="admin-actions">
-        <button id="exportBtn" class="btn btn-ghost" type="button">Export JSON</button>
-        <label class="btn btn-ghost file-btn">
-          Import JSON
-          <input id="importInput" type="file" accept="application/json" hidden />
-        </label>
-        <button id="resetBtn" class="btn btn-danger" type="button">Reset</button>
-      </div>
-      <div class="form-row two">
-        <label>
-          Profile photo URL (optional)
-          <input id="profileImageInput" class="input" type="url" placeholder="https://..." />
-        </label>
-        <label>
-          &nbsp;
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button id="saveProfileImageBtn" class="btn btn-ghost" type="button">Save Photo</button>
-            <button id="useDefaultProfileImageBtn" class="btn btn-ghost" type="button">Use Default Photo</button>
-          </div>
-        </label>
-      </div>
-    </div>
-
-    <form id="projectForm" class="form">
-      <input type="hidden" id="projectId" />
-
-      <div class="form-row">
-        <label>
-          Project Title
-          <input id="title" class="input" required maxlength="80" placeholder="e.g., GRAMMY Awards Social Media Campaign Concept" />
-        </label>
-        <label>
-          Type (tag)
-          <input id="type" class="input" required maxlength="30" placeholder="e.g., Campaign, Landing Page, Analytics" />
-        </label>
-      </div>
-
-      <div class="form-row">
-        <label>
-          One-line summary
-          <input id="summary" class="input" required maxlength="140" placeholder="Short overview for the project card." />
-        </label>
-      </div>
-
-      <div class="form-row">
-        <label>
-          What you did (bullets)
-          <textarea id="bullets" class="textarea" rows="5" placeholder="One bullet per line"></textarea>
-        </label>
-      </div>
-
-      <div class="form-row">
-        <label>
-          Skills (comma-separated)
-          <input id="skills" class="input" placeholder="Digital Marketing, Brand Storytelling, Excel" />
-        </label>
-        <label>
-          Tags (comma-separated)
-          <input id="tags" class="input" placeholder="Brand, Social Media, Analytics" />
-        </label>
-      </div>
-
-      <div class="form-row">
-        <label>
-          Project Link (optional)
-          <input id="link" class="input" type="url" placeholder="https://..." />
-        </label>
-        <label>
-          Media Link (PDF/Slides optional)
-          <input id="media" class="input" type="url" placeholder="https://... (Google Drive share link etc.)" />
-        </label>
-      </div>
-
-      <div class="form-row">
-        <label>
-          Feedback (one point per line)
-          <textarea id="feedback" class="textarea" rows="5" placeholder="Example: Strong hook, but tighten CTA"></textarea>
-        </label>
-      </div>
-
-      <div class="form-row">
-        <label>
-          Project Images (optional, one URL/path per line)
-          <textarea id="images" class="textarea" rows="4" placeholder="images/projects/grammy-awards-social-media-campaign-concept.png"></textarea>
-        </label>
-        <p class="muted" style="margin:0; font-size:12px;">
-          Add new project files in <strong>images/projects/assets</strong> and reference them like
-          <code>images/projects/assets/your-file.pdf</code> in Media Link or Project Images.
-        </p>
-      </div>
-
-      <div class="form-row">
-        <button class="btn btn-primary" type="submit">Save Project</button>
-        <button id="clearBtn" class="btn btn-ghost" type="button">Clear</button>
-      </div>
-
-      <div class="admin-list">
-        <h3>Existing Projects</h3>
-        <div id="adminList"></div>
-      </div>
-    </form>
-  </aside>
-
   <footer class="footer">
     <div class="container footer-inner">
       <span>© <span id="year"></span> Samantha Smith</span>
@@ -286,6 +178,6 @@ I’d love to connect and share more.
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="app.js?v=20260304h"></script>
+  <script src="app.js?v=20260304i"></script>
 </body>
 </html>

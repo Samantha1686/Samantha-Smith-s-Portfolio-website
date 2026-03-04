@@ -735,6 +735,7 @@ function renderProjects() {
 }
 
 function renderAdminList() {
+  if (!adminList) return;
   adminList.innerHTML = projects
     .sort(byNewest)
     .map(p => {
@@ -824,6 +825,7 @@ function closeModal() {
   Form / Admin
 =========== */
 function clearForm() {
+  if (!fieldId) return;
   fieldId.value = "";
   fieldTitle.value = "";
   fieldType.value = "";
@@ -838,6 +840,7 @@ function clearForm() {
 }
 
 function fillForm(project) {
+  if (!fieldId) return;
   fieldId.value = project.id;
   fieldTitle.value = project.title || "";
   fieldType.value = project.type || "";
@@ -918,6 +921,7 @@ function renderProfileImage() {
 }
 
 function syncProfileImageInput() {
+  if (!profileImageInput) return;
   profileImageInput.value = profileImage;
   profileImageInput.placeholder = DEFAULT_PROFILE_IMAGE;
 }
@@ -993,61 +997,70 @@ if (adminToggle) {
   adminToggle.addEventListener("click", toggleAdmin);
 }
 
-projectForm.addEventListener("submit", e => {
-  e.preventDefault();
+if (projectForm) {
+  projectForm.addEventListener("submit", e => {
+    e.preventDefault();
 
-  const nextProject = projectFromForm();
-  if (!nextProject.title || !nextProject.type || !nextProject.summary) return;
+    const nextProject = projectFromForm();
+    if (!nextProject.title || !nextProject.type || !nextProject.summary) return;
 
-  upsertProject(nextProject);
-  clearForm();
-  refreshAll();
-});
-
-clearBtn.addEventListener("click", clearForm);
-
-adminList.addEventListener("click", e => {
-  const delButton = e.target.closest("[data-del]");
-  if (delButton) {
-    const id = delButton.dataset.del;
-    const project = projects.find(p => p.id === id);
-    if (!project) return;
-    const shouldDelete = window.confirm(`Delete “${project.title}”?`);
-    if (!shouldDelete) return;
-    deleteProject(id);
+    upsertProject(nextProject);
+    clearForm();
     refreshAll();
-    return;
-  }
+  });
+}
 
-  const editButton = e.target.closest("[data-edit]");
-  if (editButton) {
-    const id = editButton.dataset.edit;
-    const project = projects.find(p => p.id === id);
-    if (!project) return;
-    fillForm(project);
-    if (adminPanel.hasAttribute("hidden")) {
-      adminPanel.removeAttribute("hidden");
-      if (adminToggle) {
-        adminToggle.setAttribute("aria-expanded", "true");
+if (clearBtn) {
+  clearBtn.addEventListener("click", clearForm);
+}
+
+if (adminList) {
+  adminList.addEventListener("click", e => {
+    const delButton = e.target.closest("[data-del]");
+    if (delButton) {
+      const id = delButton.dataset.del;
+      const project = projects.find(p => p.id === id);
+      if (!project) return;
+      const shouldDelete = window.confirm(`Delete “${project.title}”?`);
+      if (!shouldDelete) return;
+      deleteProject(id);
+      refreshAll();
+      return;
+    }
+
+    const editButton = e.target.closest("[data-edit]");
+    if (editButton) {
+      const id = editButton.dataset.edit;
+      const project = projects.find(p => p.id === id);
+      if (!project) return;
+      fillForm(project);
+      if (adminPanel && adminPanel.hasAttribute("hidden")) {
+        adminPanel.removeAttribute("hidden");
+        if (adminToggle) {
+          adminToggle.setAttribute("aria-expanded", "true");
+        }
       }
     }
-  }
-});
+  });
+}
 
-exportBtn.addEventListener("click", () => {
-  const data = JSON.stringify(projects, null, 2);
-  const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = exportFilename();
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-});
+if (exportBtn) {
+  exportBtn.addEventListener("click", () => {
+    const data = JSON.stringify(projects, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = exportFilename();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+}
 
-importInput.addEventListener("change", async e => {
+if (importInput) {
+  importInput.addEventListener("change", async e => {
   const file = e.target.files?.[0];
   if (!file) return;
 
@@ -1088,16 +1101,19 @@ importInput.addEventListener("change", async e => {
   } finally {
     importInput.value = "";
   }
-});
+  });
+}
 
-resetBtn.addEventListener("click", () => {
+if (resetBtn) {
+  resetBtn.addEventListener("click", () => {
   const shouldReset = window.confirm("Reset all projects to defaults? This clears your local edits.");
   if (!shouldReset) return;
   projects = defaultProjects().sort(byNewest);
   saveProjects(projects);
   clearForm();
   refreshAll();
-});
+  });
+}
 
 profileAvatarImage.addEventListener("error", () => {
   if (profileImage !== DEFAULT_PROFILE_IMAGE) {
@@ -1116,20 +1132,24 @@ brandAvatarImage.addEventListener("error", () => {
   brandAvatarInitials.hidden = false;
 });
 
-saveProfileImageBtn.addEventListener("click", () => {
-  const nextImage = profileImageInput.value.trim();
-  profileImage = nextImage;
-  saveProfileImage(profileImage);
-  renderProfileImage();
-  syncProfileImageInput();
-});
+if (saveProfileImageBtn && profileImageInput) {
+  saveProfileImageBtn.addEventListener("click", () => {
+    const nextImage = profileImageInput.value.trim();
+    profileImage = nextImage;
+    saveProfileImage(profileImage);
+    renderProfileImage();
+    syncProfileImageInput();
+  });
+}
 
-useDefaultProfileImageBtn.addEventListener("click", () => {
-  profileImage = DEFAULT_PROFILE_IMAGE;
-  saveProfileImage(profileImage);
-  renderProfileImage();
-  syncProfileImageInput();
-});
+if (useDefaultProfileImageBtn) {
+  useDefaultProfileImageBtn.addEventListener("click", () => {
+    profileImage = DEFAULT_PROFILE_IMAGE;
+    saveProfileImage(profileImage);
+    renderProfileImage();
+    syncProfileImageInput();
+  });
+}
 
 /* =========
   Init
