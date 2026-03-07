@@ -553,6 +553,23 @@ function canonicalProjectKey(project) {
 }
 
 function getProjectNumber(project) {
+  const key = canonicalProjectKey(project);
+  const explicitNumberByKey = {
+    // User-defined project numbering.
+    "charity-1": 1,
+    "charity-2": 2,
+    "charity-3": 3,
+    "intel-excel": 4,
+    "intel-csr": 5,
+    "film-permit": 6,
+    "grammy": 7,
+    "ab-testing": 8
+  };
+
+  if (Object.prototype.hasOwnProperty.call(explicitNumberByKey, key)) {
+    return explicitNumberByKey[key];
+  }
+
   const title = String(project?.title || "");
   const match = title.match(/\bproject\s*(\d+)\b/i);
   if (!match) return null;
