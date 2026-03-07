@@ -532,10 +532,6 @@ function esc(str) {
     .replaceAll("'", "&#39;");
 }
 
-function byNewest(a, b) {
-  return (b.createdAt || 0) - (a.createdAt || 0);
-}
-
 function canonicalProjectKey(project) {
   const key = normalizeProjectKey(project?.title);
 
@@ -610,16 +606,6 @@ function sortProjectsByPreferredOrder(list) {
     return a.index - b.index;
   });
   return indexed.map(item => item.project);
-}
-
-function sortProjectsNewestFirst(list) {
-  return [...list].sort((a, b) => {
-    const byDate = byNewest(a, b);
-    if (byDate !== 0) return byDate;
-
-    // If timestamps are identical/missing, keep newest additions first.
-    return projects.indexOf(b) - projects.indexOf(a);
-  });
 }
 
 function splitLines(raw) {
