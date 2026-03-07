@@ -536,17 +536,36 @@ function byNewest(a, b) {
   return (b.createdAt || 0) - (a.createdAt || 0);
 }
 
-function projectSortRank(project) {
+function canonicalProjectKey(project) {
   const key = normalizeProjectKey(project?.title);
-  if (key.includes("grammy") && key.includes("social media")) return 0;
-  if (key.includes("ab testing") || key.includes("recording academy")) return 1;
-  if (key.includes("intel csr metrics") || key.includes("sustainability data analysis")) return 2;
-  if (key.includes("sustainability impact analysis") || key.includes("excel dataset")) return 3;
-  if (key.includes("charity water project 1") || key.includes("mockup landing page")) return 4;
-  if (key.includes("charity water project 2") || key.includes("game concept")) return 5;
-  if (key.includes("charity water project 3") || key.includes("charity water") && key.includes("landing page")) return 6;
-  if (isFilmPermitProjectKey(key)) return 7;
-  return 100;
+
+  if (key.includes("grammy") && key.includes("social media")) return "grammy";
+  if (key.includes("ab testing") || key.includes("recording academy")) return "ab-testing";
+  if (key.includes("intel csr metrics") || key.includes("sustainability data analysis")) return "intel-csr";
+  if (key.includes("sustainability impact analysis") || key.includes("excel dataset")) return "intel-excel";
+  if (key.includes("charity water project 1") || key.includes("mockup landing page")) return "charity-1";
+  if (key.includes("charity water project 2") || key.includes("game concept")) return "charity-2";
+  if (key.includes("charity water project 3")) return "charity-3";
+  if (key.includes("charity water") && key.includes("landing page")) return "charity-3";
+  if (isFilmPermitProjectKey(key)) return "film-permit";
+
+  return "other";
+}
+
+function projectSortRank(project) {
+  const key = canonicalProjectKey(project);
+  const order = {
+    "grammy": 0,
+    "ab-testing": 1,
+    "intel-csr": 2,
+    "intel-excel": 3,
+    "charity-1": 4,
+    "charity-2": 5,
+    "charity-3": 6,
+    "film-permit": 7,
+    "other": 100
+  };
+  return order[key] ?? 100;
 }
 
 function sortProjectsByPreferredOrder(list) {
