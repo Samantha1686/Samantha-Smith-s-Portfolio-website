@@ -555,8 +555,8 @@ function canonicalProjectKey(project) {
 function projectSortRank(project) {
   const key = canonicalProjectKey(project);
   const order = {
-    "grammy": 0,
-    "ab-testing": 1,
+    "ab-testing": 0,
+    "grammy": 1,
     "intel-csr": 2,
     "intel-excel": 3,
     "charity-1": 4,
