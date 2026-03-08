@@ -13,6 +13,9 @@ const AB_TESTING_MEDIA = "images/projects/AB-Testing-The-Recording-Academy%20(1)
 const GRAMMY_MEDIA = "images/projects/Copy of Grammys Social Media Project.pptx1.pdf";
 const GRAMMY_PROJECT_TITLE = "Project 7 - GRAMMY Awards Social Media Campaign Concept";
 const AB_TESTING_PROJECT_TITLE = "Project 8 - A/B Testing - The Recording Academy";
+const PROJECT_9_SEO_MEDIA = "images/projects/assets/Project 9 CeraVe SEO Research.pdf";
+const PROJECT_9_SEO_LINK = "images/projects/assets/Project 9 Part 2 linkedin_seo_case_study_polished_carousel.pdf";
+const PROJECT_9_TITLE = "Project 9 - CeraVe SEO Research and LinkedIn SEO Case Study";
 const INTEL_CSR_MEDIA = "images/projects/Intel's Corporate Responsibilty Report.pdf";
 const INTEL_CSR_IMAGES = [
   "images/projects/sustainability-data-analysis-intel-csr-metrics-1.png",
@@ -55,6 +58,9 @@ const PROJECT_MEDIA_LIBRARY = {
   "ab testing the recording academy": AB_TESTING_MEDIA,
   "project 8 a b testing the recording academy": AB_TESTING_MEDIA,
   "recording academy ab testing": AB_TESTING_MEDIA,
+  "project 9 cerave seo research linkedin seo case study": PROJECT_9_SEO_MEDIA,
+  "project 9 cerave seo research": PROJECT_9_SEO_MEDIA,
+  "linkedin seo case study": PROJECT_9_SEO_MEDIA,
   "sustainability data analysis intel csr metrics": INTEL_CSR_MEDIA,
   "sustainability impact analysis excel dataset": INTEL_EXCEL_MEDIA,
   "film permits student": FILM_PERMIT_MEDIA,
@@ -88,6 +94,7 @@ function defaultProjects() {
       createdAt: Date.now()
     },
     abTestingProjectTemplate(),
+    project9Template(),
     intelCsrProjectTemplate(),
     intelExcelProjectTemplate(),
     {
@@ -156,6 +163,29 @@ function defaultProjects() {
     },
     filmPermitProjectTemplate()
   ];
+}
+
+function project9Template() {
+  return {
+    id: crypto.randomUUID(),
+    title: PROJECT_9_TITLE,
+    type: "Internship Case Study",
+    summary: "Internship-focused SEO case study combining CeraVe keyword research with a polished LinkedIn carousel presentation.",
+    bullets: [
+      "Researched CeraVe search opportunities using keyword intent and content-gap analysis",
+      "Prioritized findings into intern-ready recommendations tied to visibility and engagement goals",
+      "Built a polished LinkedIn carousel to communicate strategy, insights, and next steps to hiring teams"
+    ],
+    skills: ["SEO Research", "Keyword Strategy", "Professional Communication", "Case Study Storytelling"],
+    tags: ["SEO", "Internship", "LinkedIn"],
+    link: PROJECT_9_SEO_LINK,
+    media: PROJECT_9_SEO_MEDIA,
+    images: [],
+    feedback: [
+      "Strong internship-ready strategic framing; add one benchmark metric per recommendation to strengthen measurable impact."
+    ],
+    createdAt: Date.now()
+  };
 }
 
 function filmPermitProjectTemplate() {
@@ -325,6 +355,7 @@ function migrateProjects(rawProjects) {
   const templates = charityProjectTemplates();
   const filmPermitTemplate = filmPermitProjectTemplate();
   const abTestingTemplate = abTestingProjectTemplate();
+  const project9 = project9Template();
   const intelCsrTemplate = intelCsrProjectTemplate();
   const intelExcelTemplate = intelExcelProjectTemplate();
   const oldTitle = "charity: water Donation Landing Page Campaign";
@@ -343,6 +374,10 @@ function migrateProjects(rawProjects) {
   const hasAbTestingProject = rawProjects.some(item => {
     const key = normalizeProjectKey(item?.title);
     return key.includes("ab testing") || key.includes("recording academy");
+  });
+  const hasProject9 = rawProjects.some(item => {
+    const key = normalizeProjectKey(item?.title);
+    return key.includes("project 9") || key.includes("cerave seo") || key.includes("linkedin seo case study");
   });
 
   let next = rawProjects.filter(item => normalizeProjectKey(item?.title) !== normalizeProjectKey(oldTitle));
@@ -392,12 +427,18 @@ function migrateProjects(rawProjects) {
     changed = true;
   }
 
+  if (!hasProject9) {
+    next.push(project9);
+    changed = true;
+  }
+
   next = next.map(project => {
     const key = normalizeProjectKey(project?.title);
     const isGrammy = key.includes("grammy") && key.includes("social media");
     const isCsr = key.includes("intel csr metrics") || key.includes("sustainability data analysis");
     const isExcel = key.includes("sustainability impact analysis") || key.includes("excel dataset");
     const isAbTesting = key.includes("ab testing") || key.includes("recording academy");
+    const isProject9 = key.includes("project 9") || key.includes("cerave seo") || key.includes("linkedin seo case study");
     if (isGrammy) {
       const currentMedia = String(project.media || "").trim();
       const nextMedia = currentMedia || GRAMMY_MEDIA;
@@ -448,6 +489,25 @@ function migrateProjects(rawProjects) {
       return {
         ...project,
         title: AB_TESTING_PROJECT_TITLE,
+        media: nextMedia,
+        images: []
+      };
+    }
+
+    if (isProject9) {
+      const currentMedia = String(project.media || "").trim();
+      const currentLink = String(project.link || "").trim();
+      const nextMedia = PROJECT_9_SEO_MEDIA;
+      const nextLink = PROJECT_9_SEO_LINK;
+      const sameMedia = currentMedia === nextMedia;
+      const sameLink = currentLink === nextLink;
+      const sameImages = JSON.stringify(project.images || []) === JSON.stringify([]);
+      const sameTitle = String(project.title || "") === PROJECT_9_TITLE;
+      if (!sameMedia || !sameLink || !sameImages || !sameTitle) changed = true;
+      return {
+        ...project,
+        title: PROJECT_9_TITLE,
+        link: nextLink,
         media: nextMedia,
         images: []
       };
@@ -537,6 +597,7 @@ function canonicalProjectKey(project) {
 
   if (key.includes("grammy") && key.includes("social media")) return "grammy";
   if (key.includes("ab testing") || key.includes("recording academy")) return "ab-testing";
+  if (key.includes("project 9") || key.includes("cerave seo") || key.includes("linkedin seo case study")) return "project-9-seo";
   if (key.includes("intel csr metrics") || key.includes("sustainability data analysis")) return "intel-csr";
   if (key.includes("sustainability impact analysis") || key.includes("excel dataset")) return "intel-excel";
   if (key.includes("charity water project 1") || key.includes("mockup landing page")) return "charity-1";
@@ -559,7 +620,8 @@ function getProjectNumber(project) {
     "intel-csr": 5,
     "film-permit": 6,
     "grammy": 7,
-    "ab-testing": 8
+    "ab-testing": 8,
+    "project-9-seo": 9
   };
 
   if (Object.prototype.hasOwnProperty.call(explicitNumberByKey, key)) {
@@ -576,6 +638,7 @@ function getProjectNumber(project) {
 function projectSortRank(project) {
   const key = canonicalProjectKey(project);
   const order = {
+    "project-9-seo": 0,
     "ab-testing": 0,
     "grammy": 1,
     "intel-csr": 2,
