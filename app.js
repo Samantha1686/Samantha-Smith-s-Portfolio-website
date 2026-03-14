@@ -67,7 +67,7 @@ const PROJECT_MEDIA_LIBRARY = {
   "film permit project": FILM_PERMIT_MEDIA
 };
 const CHARITY_PROJECT_1_TITLE = "Project 1 - Charity: Water Landing Page Design";
-const CHARITY_PROJECT_2_TITLE = "charity: water Project 2 — Game Concept";
+const CHARITY_PROJECT_2_TITLE = "Project 2 - Charity: Water Gamified Mobile Concept";
 const CHARITY_PROJECT_3_TITLE = "charity: water Project 3 — Landing Page";
 const FILM_PERMIT_PROJECT_TITLE = "Film Permit Analysis Project";
 
@@ -140,23 +140,40 @@ function defaultProjects() {
     {
       id: crypto.randomUUID(),
       title: CHARITY_PROJECT_2_TITLE,
-      type: "Campaign Concept",
-      summary: "Developed a gamified campaign concept to increase engagement and support for charity: water.",
+      type: "Product Concept",
+      summary: "Created the Water Drop Journey concept as a gamified mobile experience that translates charity: water's mission into interactive, mission-driven engagement.",
       bullets: [
-        "Designed concept direction and key interaction flow for a mission-focused game idea",
-        "Mapped messaging moments to donation and awareness goals",
-        "Organized concept output into presentation-ready format"
+        "Defined gameplay mechanics including controls, scoring systems, difficulty progression, and win/lose conditions",
+        "Connected gameplay outcomes to brand awareness goals and stakeholder value",
+        "Structured the concept as development-ready documentation with clear UX interaction flow"
       ],
-      skills: ["Campaign Strategy", "Concept Development", "Storytelling"],
-      tags: ["Nonprofit", "Campaign", "Creative"],
+      skills: [
+        "Product Concept Development",
+        "Gamification Strategy",
+        "UX Interaction Planning",
+        "Stakeholder Communication",
+        "Creative Problem Solving",
+        "Mission-Driven Brand Storytelling"
+      ],
+      tags: ["Nonprofit", "Gamification", "Mobile"],
       link: "",
       media: "images/projects/assets/charity-water-project-2-game-concept.pdf",
+      evaluationPdf: "images/projects/Project 2 Feedback GCA.pdf",
       images: [
         "images/projects/charity-water-donation-landing-page-campaign-3.png",
         "images/projects/charity-water-donation-landing-page-campaign-4.png"
       ],
+      instructorEvaluation: [
+        "The Water Drop Journey game concept creatively translates charity: water's mission into an interactive experience that helps players understand the global water challenge.",
+        "The project clearly outlined gameplay mechanics, including controls, scoring systems, difficulty progression, and win/lose conditions, making the concept feel realistic and development-ready.",
+        "The proposal also effectively connected the game to brand awareness and stakeholder goals.",
+        "Future improvements suggested expanding reflection on design details and ensuring official brand assets are used in mockups."
+      ],
       feedback: [
-        "Strong concept direction—add one slide that shows expected user journey from awareness to action."
+        "The Water Drop Journey game concept creatively translates charity: water's mission into an interactive experience that helps players understand the global water challenge.",
+        "The project clearly outlined gameplay mechanics, including controls, scoring systems, difficulty progression, and win/lose conditions, making the concept feel realistic and development-ready.",
+        "The proposal also effectively connected the game to brand awareness and stakeholder goals.",
+        "Future improvements suggested expanding reflection on design details and ensuring official brand assets are used in mockups."
       ],
       createdAt: Date.now()
     },
@@ -325,23 +342,40 @@ function charityProjectTemplates() {
     {
       id: crypto.randomUUID(),
       title: CHARITY_PROJECT_2_TITLE,
-      type: "Campaign Concept",
-      summary: "Developed a gamified campaign concept to increase engagement and support for charity: water.",
+      type: "Product Concept",
+      summary: "Created the Water Drop Journey concept as a gamified mobile experience that translates charity: water's mission into interactive, mission-driven engagement.",
       bullets: [
-        "Designed concept direction and key interaction flow for a mission-focused game idea",
-        "Mapped messaging moments to donation and awareness goals",
-        "Organized concept output into presentation-ready format"
+        "Defined gameplay mechanics including controls, scoring systems, difficulty progression, and win/lose conditions",
+        "Connected gameplay outcomes to brand awareness goals and stakeholder value",
+        "Structured the concept as development-ready documentation with clear UX interaction flow"
       ],
-      skills: ["Campaign Strategy", "Concept Development", "Storytelling"],
-      tags: ["Nonprofit", "Campaign", "Creative"],
+      skills: [
+        "Product Concept Development",
+        "Gamification Strategy",
+        "UX Interaction Planning",
+        "Stakeholder Communication",
+        "Creative Problem Solving",
+        "Mission-Driven Brand Storytelling"
+      ],
+      tags: ["Nonprofit", "Gamification", "Mobile"],
       link: "",
       media: "images/projects/assets/charity-water-project-2-game-concept.pdf",
+      evaluationPdf: "images/projects/Project 2 Feedback GCA.pdf",
       images: [
         "images/projects/charity-water-donation-landing-page-campaign-3.png",
         "images/projects/charity-water-donation-landing-page-campaign-4.png"
       ],
+      instructorEvaluation: [
+        "The Water Drop Journey game concept creatively translates charity: water's mission into an interactive experience that helps players understand the global water challenge.",
+        "The project clearly outlined gameplay mechanics, including controls, scoring systems, difficulty progression, and win/lose conditions, making the concept feel realistic and development-ready.",
+        "The proposal also effectively connected the game to brand awareness and stakeholder goals.",
+        "Future improvements suggested expanding reflection on design details and ensuring official brand assets are used in mockups."
+      ],
       feedback: [
-        "Strong concept direction—add one slide that shows expected user journey from awareness to action."
+        "The Water Drop Journey game concept creatively translates charity: water's mission into an interactive experience that helps players understand the global water challenge.",
+        "The project clearly outlined gameplay mechanics, including controls, scoring systems, difficulty progression, and win/lose conditions, making the concept feel realistic and development-ready.",
+        "The proposal also effectively connected the game to brand awareness and stakeholder goals.",
+        "Future improvements suggested expanding reflection on design details and ensuring official brand assets are used in mockups."
       ],
       createdAt: Date.now()
     },
