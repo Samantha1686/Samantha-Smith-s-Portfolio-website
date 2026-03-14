@@ -1134,7 +1134,7 @@ function setStats() {
 
 function renderSkillChips() {
   const top = getAllSkills(projects).slice(0, 12);
-  skillsChips.innerHTML = top.map(s => `<span class="chip">${esc(s)}</span>`).join("");
+  skillsChips.innerHTML = top.map(s => `<span class="chip chip-static">${esc(s)}</span>`).join("");
 }
 
 function renderTagFilter() {
@@ -1322,7 +1322,7 @@ function renderTocAndSections(filtered) {
       : "";
 
     const skillsBlock = (p.skills || []).length
-      ? `<div class="chip-row" style="margin:8px 0 0;">${(p.skills || []).map(s => `<span class="chip">${esc(s)}</span>`).join("")}</div>`
+      ? `<div class="chip-row" style="margin:8px 0 0;">${(p.skills || []).map(s => `<span class="chip chip-static">${esc(s)}</span>`).join("")}</div>`
       : "";
 
     const linksBlock = [
@@ -1337,7 +1337,7 @@ function renderTocAndSections(filtered) {
 
     return `
       <section id="section-${esc(p.id)}" class="card project-section">
-        <span class="badge">${esc(p.type || "Project")}</span>
+        <span class="badge badge-static">${esc(p.type || "Project")}</span>
         <h3>${esc(p.title)}</h3>
         <p>${esc(p.summary)}</p>
         ${mediaBlock}
@@ -1378,13 +1378,13 @@ function renderProjects() {
     const coverImage = images[0]
       ? `<img class="project-cover" src="${esc(images[0])}" alt="${esc(p.title)} preview" loading="lazy" />`
       : "";
-    const chips = (p.tags || []).slice(0, 3).map(t => `<span class="badge">${esc(t)}</span>`).join("");
-    const skills = (p.skills || []).slice(0, 3).map(s => `<span class="chip">${esc(s)}</span>`).join("");
+    const chips = (p.tags || []).slice(0, 3).map(t => `<span class="badge badge-static">${esc(t)}</span>`).join("");
+    const skills = (p.skills || []).slice(0, 3).map(s => `<span class="chip chip-static">${esc(s)}</span>`).join("");
 
     return `
       <article class="card card-project" data-id="${esc(p.id)}" tabindex="0" role="button" aria-label="Open project ${esc(p.title)}">
         <div class="kicker">
-          <span class="badge">${esc(p.type || "Project")}</span>
+          <span class="badge badge-static">${esc(p.type || "Project")}</span>
           <div style="display:flex; gap:6px; flex-wrap:wrap;">${chips}</div>
         </div>
         ${coverImage}
@@ -1452,12 +1452,12 @@ function openModal(project) {
             .map((src, index) => `<img class="project-modal-image" src="${esc(src)}" alt="${esc(project.title)} preview ${index + 1}" loading="lazy" />`)
             .join("")}</div>`
         : ""}
-      <span class="badge">${esc(project.type || "Project")}</span>
+      <span class="badge badge-static">${esc(project.type || "Project")}</span>
       <h3 class="modal-title">${esc(project.title)}</h3>
       <p class="modal-copy">${esc(project.summary)}</p>
 
       <div class="chip-row" style="margin:10px 0 0;">
-        ${(project.skills || []).slice(0, 10).map(s => `<span class="chip">${esc(s)}</span>`).join("")}
+        ${(project.skills || []).slice(0, 10).map(s => `<span class="chip chip-static">${esc(s)}</span>`).join("")}
       </div>
 
       <hr class="sep"/>

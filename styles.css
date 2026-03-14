@@ -151,8 +151,8 @@ h1{
 }
 .stat-num{ font-size:25px; font-weight:900; }
 .stat-num{
-  color: var(--teal);
-  text-shadow: 0 0 16px rgba(46,211,198,.28);
+  color: #f0dcff;
+  text-shadow: 0 0 16px rgba(179,118,255,.30);
 }
 .stat-label{ font-size:13px; color:var(--muted); margin-top:4px; }
 
@@ -217,7 +217,7 @@ h1{
 .note{ margin: 12px 0 0; color: var(--muted); font-size:12px; }
 
 .section{ padding: 34px 0; }
-.section + .section{ border-top:1px solid rgba(46,211,198,.30); }
+.section + .section{ border-top:1px solid rgba(216,163,255,.34); }
 .section.alt{ background: rgba(255,255,255,.02); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 .featured{ padding-top: 18px; }
 .section-head{
@@ -225,7 +225,7 @@ h1{
   gap:16px; flex-wrap:wrap;
   margin-bottom:18px;
   padding-bottom:10px;
-  border-bottom:1px solid rgba(46,211,198,.36);
+  border-bottom:1px solid rgba(216,163,255,.40);
 }
 .section h2{ margin:0 0 8px; font-size:26px; }
 .muted{ color: var(--muted); }
@@ -280,7 +280,7 @@ h1{
 .card-project{
   padding:16px;
   cursor:pointer;
-  border-color: rgba(46,211,198,.28);
+  border-color: rgba(216,163,255,.36);
   transition: transform .12s ease, border-color .14s ease, box-shadow .14s ease;
 }
 .card-project:hover{
@@ -297,9 +297,9 @@ h1{
   font-size:12px;
   padding:6px 10px;
   border-radius:999px;
-  border:1px solid rgba(46,211,198,.48);
-  background: rgba(46,211,198,.16);
-  color: #d9fffb;
+  border:1px solid rgba(216,163,255,.58);
+  background: rgba(216,163,255,.18);
+  color: #f3dcff;
   font-weight:700;
 }
 .project-title{ font-size:16px; margin:0 0 6px; font-weight:900; }
@@ -321,9 +321,9 @@ h1{
   font-size:12px;
   padding:6px 10px;
   border-radius:999px;
-  background: rgba(46,211,198,.12);
-  border:1px solid rgba(46,211,198,.34);
-  color:#ddfffc;
+  background: rgba(216,163,255,.14);
+  border:1px solid rgba(216,163,255,.38);
+  color:#efd8ff;
   font-weight:700;
 }
 .project-toc{
@@ -407,7 +407,7 @@ h1{
 }
 .bullets{ margin:12px 0 0; color:var(--muted); line-height:1.6; }
 .bullets li + li{ margin-top:6px; }
-.icon-accent{ color: var(--teal); font-weight:900; margin-right:6px; }
+.icon-accent{ color: #d8a3ff; font-weight:900; margin-right:6px; }
 
 .cert-grid{
   display:grid;
@@ -598,4 +598,26 @@ hr.sep{ border:none; border-top:1px solid var(--line); margin:16px 0; }
 .list{ margin:0; padding-left:18px; line-height:1.7; }
 @media (max-width: 640px){
   .project-section-media{ grid-template-columns: 1fr; }
+}
+
+/* Enforce non-interactive pill colors as purple-only. */
+.badge,
+.chip,
+.featured .badge,
+.card-project .badge,
+.card-project .chip,
+.project-section .badge,
+.project-section .chip,
+.modal .badge,
+.modal .chip{
+  border-color: rgba(216,163,255,.58) !important;
+  background: rgba(216,163,255,.18) !important;
+  color: #f3dcff !important;
+}
+
+.badge-static,
+.chip-static{
+  border-color: rgba(216,163,255,.58) !important;
+  background: rgba(216,163,255,.18) !important;
+  color: #f3dcff !important;
 }
