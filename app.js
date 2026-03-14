@@ -1002,6 +1002,46 @@ function getProjectInstructorEvaluation(project) {
     : [];
 }
 
+function normalizeProjectAssetUrl(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+
+  const lower = trimmed.toLowerCase();
+  if (
+    lower.startsWith("http://") ||
+    lower.startsWith("https://") ||
+    lower.startsWith("data:") ||
+    lower.startsWith("blob:") ||
+    lower.startsWith("/")
+  ) {
+    return trimmed;
+  }
+
+  // Convert filename-only values into repository-relative asset paths.
+  if (!trimmed.includes("/")) return `images/projects/${trimmed}`;
+  return trimmed;
+}
+
+function getProjectEvaluationPdf(project) {
+  const direct = normalizeProjectAssetUrl(project?.evaluationPdf);
+  const isEmptyPdfDataUrl = direct.startsWith("data:application/pdf") && direct.length < 80;
+  if (direct && !isEmptyPdfDataUrl) return direct;
+
+  const fallbackByKey = {
+    "charity-1": "images/projects/Project 1 Feedback GCA.pdf",
+    "charity-2": "images/projects/Project 2 Feedback GCA.pdf",
+    "charity-3": "images/projects/Project 3 Feedback GCA.pdf",
+    "intel-excel": "images/projects/Project 4 Feedback GCA.pdf",
+    "project-5-storytelling": "images/projects/Project 5 GCA Feedback.pdf",
+    "project-6-reflect": "images/projects/Project 6 Feedback GCA.pdf",
+    "grammy": "images/projects/Project 7 feedback Grammys.pdf",
+    "ab-testing": "images/projects/Project 8 AB testing Feedback GCA.pdf",
+    "project-9-seo": "images/projects/Project 9 feedback GCA.pdf"
+  };
+
+  return fallbackByKey[canonicalProjectKey(project)] || "";
+}
+
 /* =========
   State
 =========== */
@@ -1129,7 +1169,7 @@ function normalizeExtractedPdfText(text) {
 }
 
 async function resolvePdfSource(pdfPath) {
-  const trimmedPath = String(pdfPath || "").trim();
+  const trimmedPath = normalizeProjectAssetUrl(pdfPath);
   if (trimmedPath.startsWith("data:application/pdf")) {
     const response = await fetch(trimmedPath);
     if (!response.ok) throw new Error("Unable to read uploaded PDF data.");
@@ -1256,7 +1296,7 @@ function renderTocAndSections(filtered) {
   projectSections.innerHTML = filtered.map(p => {
     const images = getProjectImages(p);
     const evaluation = getProjectInstructorEvaluation(p);
-    const evaluationPdf = String(p.evaluationPdf || "").trim();
+    const evaluationPdf = getProjectEvaluationPdf(p);
     const bullets = (p.bullets || []).filter(Boolean);
     const primaryUrl = getPrimaryProjectUrl(p);
     const mediaUrl = String(p.media || "").trim();
@@ -1381,7 +1421,7 @@ function openModal(project) {
   const images = getProjectImages(project);
   const bullets = (project.bullets || []).filter(Boolean);
   const instructorEvaluation = getProjectInstructorEvaluation(project);
-  const evaluationPdf = String(project.evaluationPdf || "").trim();
+  const evaluationPdf = getProjectEvaluationPdf(project);
 
   const linkBlock = project.link
     ? `<p><strong>Project link:</strong> <a href="${esc(project.link)}" target="_blank" rel="noreferrer">${esc(project.link)}</a></p>`
@@ -1476,7 +1516,7 @@ function fillForm(project) {
   fieldMedia.value = project.media || "";
   const instructorEvaluation = getProjectInstructorEvaluation(project);
   if (fieldInstructorEvaluation) fieldInstructorEvaluation.value = instructorEvaluation.join("\n");
-  if (fieldEvaluationPdf) fieldEvaluationPdf.value = String(project.evaluationPdf || "");
+  if (fieldEvaluationPdf) fieldEvaluationPdf.value = getProjectEvaluationPdf(project);
   if (fieldFeedback) fieldFeedback.value = instructorEvaluation.join("\n");
   fieldImages.value = getProjectImages(project).join("\n");
   evaluationPdfUploadDataUrl = "";
@@ -1485,7 +1525,8 @@ function fillForm(project) {
 
 function projectFromForm() {
   const evaluationLines = splitLines(fieldInstructorEvaluation?.value || fieldFeedback?.value || "");
-  const evaluationPdf = String(fieldEvaluationPdf?.value || evaluationPdfUploadDataUrl || "").trim();
+  const typedEvaluationPdf = normalizeProjectAssetUrl(fieldEvaluationPdf?.value);
+  const evaluationPdf = String(typedEvaluationPdf || evaluationPdfUploadDataUrl || "").trim();
   return {
     id: fieldId.value || crypto.randomUUID(),
     title: fieldTitle.value.trim(),
