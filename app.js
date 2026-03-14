@@ -253,19 +253,38 @@ function project9Template() {
     id: crypto.randomUUID(),
     title: PROJECT_9_TITLE,
     type: "Internship Case Study",
-    summary: "Internship-focused SEO case study combining CeraVe keyword research with a polished LinkedIn carousel presentation.",
+    summary: "Developed an audience-focused CeraVe SEO and content marketing strategy using search intent, long-tail keywords, and AI-aware content structure to improve discoverability and educational value.",
     bullets: [
-      "Researched CeraVe search opportunities using keyword intent and content-gap analysis",
-      "Prioritized findings into intern-ready recommendations tied to visibility and engagement goals",
-      "Built a polished LinkedIn carousel to communicate strategy, insights, and next steps to hiring teams"
+      "Created persona-driven blog content that addressed target concerns while maintaining CeraVe's practical, educational brand voice",
+      "Structured content with clear headers and concise sections to improve readability for users and search engines",
+      "Applied search intent analysis, long-tail keyword strategy, and AI-optimized formatting, with recommendations to expand technical keyword metrics"
     ],
-    skills: ["SEO Research", "Keyword Strategy", "Professional Communication", "Case Study Storytelling"],
+    skills: [
+      "SEO Keyword Strategy",
+      "Persona-Driven Content Marketing",
+      "Search Intent Analysis",
+      "Blog Writing and Content Structure",
+      "Technical SEO Research",
+      "AI-Aware Content Optimization"
+    ],
     tags: ["SEO", "Internship", "LinkedIn"],
     link: PROJECT_9_SEO_LINK,
     media: PROJECT_9_SEO_MEDIA,
+    evaluationPdf: "images/projects/Project 9 feedback GCA.pdf",
     images: [],
+    instructorEvaluation: [
+      "This project demonstrated strong audience-focused content strategy and clear SEO-oriented writing.",
+      "Blog content effectively addressed the target persona's concerns while maintaining a practical, educational tone aligned with CeraVe's brand voice.",
+      "Structured formatting with headers and concise sections improved readability for both users and search engines.",
+      "The project also showed awareness of modern SEO strategy by focusing on search intent, long-tail keywords, and AI-optimized content structure.",
+      "Suggested improvements included expanding keyword research with search volume, keyword difficulty, and clearer intent classification to strengthen the technical SEO analysis."
+    ],
     feedback: [
-      "Strong internship-ready strategic framing; add one benchmark metric per recommendation to strengthen measurable impact."
+      "This project demonstrated strong audience-focused content strategy and clear SEO-oriented writing.",
+      "Blog content effectively addressed the target persona's concerns while maintaining a practical, educational tone aligned with CeraVe's brand voice.",
+      "Structured formatting with headers and concise sections improved readability for both users and search engines.",
+      "The project also showed awareness of modern SEO strategy by focusing on search intent, long-tail keywords, and AI-optimized content structure.",
+      "Suggested improvements included expanding keyword research with search volume, keyword difficulty, and clearer intent classification to strengthen the technical SEO analysis."
     ],
     createdAt: Date.now()
   };
