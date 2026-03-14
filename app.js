@@ -66,7 +66,7 @@ const PROJECT_MEDIA_LIBRARY = {
   "film permits student": FILM_PERMIT_MEDIA,
   "film permit project": FILM_PERMIT_MEDIA
 };
-const CHARITY_PROJECT_1_TITLE = "charity: water Project 1 — Mockup Landing Page";
+const CHARITY_PROJECT_1_TITLE = "Project 1 - Charity: Water Landing Page Design";
 const CHARITY_PROJECT_2_TITLE = "charity: water Project 2 — Game Concept";
 const CHARITY_PROJECT_3_TITLE = "charity: water Project 3 — Landing Page";
 const FILM_PERMIT_PROJECT_TITLE = "Film Permit Analysis Project";
@@ -101,20 +101,39 @@ function defaultProjects() {
       id: crypto.randomUUID(),
       title: CHARITY_PROJECT_1_TITLE,
       type: "Landing Page",
-      summary: "Created a charity: water mockup landing page concept tailored for student-focused nonprofit storytelling.",
+      summary: "Designed a student-focused charity: water landing page that combines brand storytelling, clear mission communication, and a relatable donation call to action.",
       bullets: [
         "Aligned visual identity and tone with charity: water brand style",
         "Wrote audience-specific messaging and a clear donation CTA",
         "Designed page layout and assets in Canva; translated concept into basic web layout"
       ],
-      skills: ["Landing Page Strategy", "Brand Alignment", "Content Creation", "Basic HTML/CSS"],
+      skills: [
+        "Brand Messaging",
+        "Value Proposition Development",
+        "UX-Focused Landing Page Design",
+        "Visual Storytelling",
+        "Call-to-Action Optimization",
+        "Brand Identity Alignment",
+        "Marketing Communication Strategy"
+      ],
       tags: ["Nonprofit", "Brand", "Landing Page"],
       link: "",
       media: "images/projects/charity-water-project-1-mockup-landing-page.pdf",
+      evaluationPdf: "images/projects/Project 1 Feedback GCA.pdf",
       images: ["images/projects/charity-water-donation-landing-page-campaign-2.png"],
+      instructorEvaluation: [
+        "The project demonstrated strong brand awareness and user-focused messaging.",
+        "The landing page effectively communicated charity: water's mission through a clear value proposition and impactful visual storytelling.",
+        "The color palette and typography aligned well with the brand identity, and the 'spare change' messaging created a relatable call to action for college students.",
+        "The layout successfully combined visuals and messaging into a realistic landing page concept.",
+        "Suggested improvements included refining visual hierarchy, increasing whitespace, and adjusting CTA placement to enhance readability and user experience."
+      ],
       feedback: [
-        "Great mission alignment—add a short “why donate now” section for urgency.",
-        "Consider 1 small credibility element (impact metric, trust badge, or quote)."
+        "The project demonstrated strong brand awareness and user-focused messaging.",
+        "The landing page effectively communicated charity: water's mission through a clear value proposition and impactful visual storytelling.",
+        "The color palette and typography aligned well with the brand identity, and the 'spare change' messaging created a relatable call to action for college students.",
+        "The layout successfully combined visuals and messaging into a realistic landing page concept.",
+        "Suggested improvements included refining visual hierarchy, increasing whitespace, and adjusting CTA placement to enhance readability and user experience."
       ],
       createdAt: Date.now()
     },
@@ -716,12 +735,25 @@ function getProjectImages(project) {
   return PROJECT_IMAGE_LIBRARY[key] || [];
 }
 
+function getProjectInstructorEvaluation(project) {
+  const direct = Array.isArray(project?.instructorEvaluation)
+    ? project.instructorEvaluation.map(item => String(item || "").trim()).filter(Boolean)
+    : [];
+
+  if (direct.length) return direct;
+
+  return Array.isArray(project?.feedback)
+    ? project.feedback.map(item => String(item || "").trim()).filter(Boolean)
+    : [];
+}
+
 /* =========
   State
 =========== */
 let projects = sortProjectsByPreferredOrder(loadProjects());
 let profileImage = loadProfileImage();
 let excelPreviewState = null;
+let evaluationPdfUploadDataUrl = "";
 
 /* =========
   Elements
@@ -766,6 +798,11 @@ const fieldSkills = document.getElementById("skills");
 const fieldTags = document.getElementById("tags");
 const fieldLink = document.getElementById("link");
 const fieldMedia = document.getElementById("media");
+const fieldInstructorEvaluation = document.getElementById("instructorEvaluation");
+const fieldEvaluationPdf = document.getElementById("evaluationPdf");
+const fieldEvaluationPdfUpload = document.getElementById("evaluationPdfUpload");
+const extractEvaluationPdfBtn = document.getElementById("extractEvaluationPdfBtn");
+const evaluationPdfStatus = document.getElementById("evaluationPdfStatus");
 const fieldFeedback = document.getElementById("feedback");
 const fieldImages = document.getElementById("images");
 
@@ -802,14 +839,65 @@ function renderTagFilter() {
 
 function matchesQuery(project, q) {
   if (!q) return true;
+  const instructorEvaluation = getProjectInstructorEvaluation(project);
   const hay = [
     project.title, project.type, project.summary,
     ...(project.bullets || []),
     ...(project.skills || []),
     ...(project.tags || []),
-    ...(project.feedback || [])
+    ...instructorEvaluation
   ].join(" ").toLowerCase();
   return hay.includes(q.toLowerCase());
+}
+
+function isPdfFile(url) {
+  const value = String(url || "").trim();
+  if (!value) return false;
+  if (value.startsWith("data:application/pdf")) return true;
+  return /\.pdf(\?.*)?$/i.test(value);
+}
+
+function setEvaluationPdfStatus(message, isError = false) {
+  if (!evaluationPdfStatus) return;
+  evaluationPdfStatus.textContent = message;
+  evaluationPdfStatus.style.color = isError ? "#ffd1d1" : "";
+}
+
+function normalizeExtractedPdfText(text) {
+  return String(text || "")
+    .split("\n")
+    .map(line => line.replace(/\s+/g, " ").trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
+async function resolvePdfSource(pdfPath) {
+  const trimmedPath = String(pdfPath || "").trim();
+  if (trimmedPath.startsWith("data:application/pdf")) {
+    const response = await fetch(trimmedPath);
+    if (!response.ok) throw new Error("Unable to read uploaded PDF data.");
+    return response.arrayBuffer();
+  }
+
+  const response = await fetch(trimmedPath);
+  if (!response.ok) throw new Error("Unable to load PDF from path or URL.");
+  return response.arrayBuffer();
+}
+
+async function extractTextFromPdf(pdfPath) {
+  if (!window.pdfjsLib) throw new Error("PDF extraction library is unavailable.");
+  const buffer = await resolvePdfSource(pdfPath);
+  const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
+  const lines = [];
+
+  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+    const page = await pdf.getPage(pageNumber);
+    const content = await page.getTextContent();
+    const pageText = content.items.map(item => item.str || "").join(" ");
+    lines.push(pageText);
+  }
+
+  return normalizeExtractedPdfText(lines.join("\n"));
 }
 
 function matchesTag(project, tag) {
@@ -968,7 +1056,8 @@ function renderAdminList() {
 function openModal(project) {
   const images = getProjectImages(project);
   const bullets = (project.bullets || []).filter(Boolean);
-  const feedback = (project.feedback || []).filter(Boolean);
+  const instructorEvaluation = getProjectInstructorEvaluation(project);
+  const evaluationPdf = String(project.evaluationPdf || "").trim();
 
   const linkBlock = project.link
     ? `<p><strong>Project link:</strong> <a href="${esc(project.link)}" target="_blank" rel="noreferrer">${esc(project.link)}</a></p>`
@@ -976,6 +1065,10 @@ function openModal(project) {
 
   const mediaBlock = project.media
     ? `<p><strong>Media (slides/PDF/Excel):</strong> <a href="${esc(project.media)}" target="_blank" rel="noreferrer">${esc(project.media)}</a></p>`
+    : "";
+
+  const evaluationPdfBlock = evaluationPdf
+    ? `<p><strong>Instructor Evaluation PDF:</strong> <a href="${esc(evaluationPdf)}" target="_blank" rel="noreferrer">${esc(evaluationPdf)}</a></p>`
     : "";
 
   modalContent.innerHTML = `
@@ -999,12 +1092,13 @@ function openModal(project) {
         ? `<h4 class="modal-section-title">What I did</h4><ul class="list modal-list">${bullets.map(b => `<li>${esc(b)}</li>`).join("")}</ul>`
         : ""}
 
-      ${feedback.length
-        ? `<h4 class="modal-section-title">Feedback</h4><ul class="list modal-list">${feedback.map(f => `<li>${esc(f)}</li>`).join("")}</ul>`
+      ${instructorEvaluation.length
+        ? `<h4 class="modal-section-title">Instructor Evaluation</h4><ul class="list modal-list">${instructorEvaluation.map(f => `<li>${esc(f)}</li>`).join("")}</ul>`
         : ""}
 
       ${linkBlock}
       ${mediaBlock}
+      ${evaluationPdfBlock}
     </div>
   `;
 
@@ -1037,8 +1131,12 @@ function clearForm() {
   fieldTags.value = "";
   fieldLink.value = "";
   fieldMedia.value = "";
-  fieldFeedback.value = "";
+  if (fieldInstructorEvaluation) fieldInstructorEvaluation.value = "";
+  if (fieldEvaluationPdf) fieldEvaluationPdf.value = "";
+  if (fieldFeedback) fieldFeedback.value = "";
   fieldImages.value = "";
+  evaluationPdfUploadDataUrl = "";
+  setEvaluationPdfStatus("Upload a PDF for extraction or paste a saved PDF path.");
 }
 
 function fillForm(project) {
@@ -1052,11 +1150,18 @@ function fillForm(project) {
   fieldTags.value = (project.tags || []).join(", ");
   fieldLink.value = project.link || "";
   fieldMedia.value = project.media || "";
-  fieldFeedback.value = (project.feedback || []).join("\n");
+  const instructorEvaluation = getProjectInstructorEvaluation(project);
+  if (fieldInstructorEvaluation) fieldInstructorEvaluation.value = instructorEvaluation.join("\n");
+  if (fieldEvaluationPdf) fieldEvaluationPdf.value = String(project.evaluationPdf || "");
+  if (fieldFeedback) fieldFeedback.value = instructorEvaluation.join("\n");
   fieldImages.value = getProjectImages(project).join("\n");
+  evaluationPdfUploadDataUrl = "";
+  setEvaluationPdfStatus("Upload a PDF for extraction or paste a saved PDF path.");
 }
 
 function projectFromForm() {
+  const evaluationLines = splitLines(fieldInstructorEvaluation?.value || fieldFeedback?.value || "");
+  const evaluationPdf = String(fieldEvaluationPdf?.value || evaluationPdfUploadDataUrl || "").trim();
   return {
     id: fieldId.value || crypto.randomUUID(),
     title: fieldTitle.value.trim(),
@@ -1067,7 +1172,9 @@ function projectFromForm() {
     tags: splitCsv(fieldTags.value),
     link: fieldLink.value.trim(),
     media: fieldMedia.value.trim(),
-    feedback: splitLines(fieldFeedback.value),
+    instructorEvaluation: evaluationLines,
+    feedback: evaluationLines,
+    evaluationPdf,
     images: splitLines(fieldImages.value),
     createdAt: Date.now()
   };
@@ -1284,7 +1391,238 @@ if (importInput) {
         tags: Array.isArray(item.tags) ? item.tags.map(String).map(v => v.trim()).filter(Boolean) : [],
         link: String(item.link || "").trim(),
         media: String(item.media || "").trim(),
-        feedback: Array.isArray(item.feedback) ? item.feedback.map(String).map(v => v.trim()).filter(Boolean) : [],
+        instructorEvaluation: Array.isArray(item.instructorEvaluation)
+          ? item.instructorEvaluation.map(String).map(v => v.trim()).filter(Boolean)
+          : Array.isArray(item.feedback)
+            ? item.feedback.map(String).map(v => v.trim()).filter(Boolean)
+            : [],
+        feedback: Array.isArray(item.feedback)
+          ? item.feedback.map(String).map(v => v.trim()).filter(Boolean)
+          : Array.isArray(item.instructorEvaluation)
+            ? item.instructorEvaluation.map(String).map(v => v.trim()).filter(Boolean)
+            : [],
+        evaluationPdf: String(item.evaluationPdf || "").trim(),
+        images: Array.isArray(item.images)
+          ? item.images.map(String).map(v => v.trim()).filter(Boolean)
+          : String(item.image || "").trim()
+            ? [String(item.image).trim()]
+            : [],
+        createdAt: Number(item.createdAt) || Date.now()
+      }))
+      .filter(item => item.title && item.type && item.summary);
+
+    if (!normalized.length) throw new Error("No valid projects found");
+
+    projects = sortProjectsByPreferredOrder(normalized);
+    saveProjects(projects);
+    refreshAll();
+  } catch {
+    window.alert("Import failed. Please use a valid exported JSON file.");
+  } finally {
+    importInput.value = "";
+  }
+  });
+}
+
+if (resetBtn) {
+  resetBtn.addEventListener("click", () => {
+  const shouldReset = window.confirm("Reset all projects to defaults? This clears your local edits.");
+  if (!shouldReset) return;
+  projects = sortProjectsByPreferredOrder(defaultProjects());
+  saveProjects(projects);
+  clearForm();
+  refreshAll();
+  });
+}
+
+profileAvatarImage.addEventListener("error", () => {
+  if (profileImage !== DEFAULT_PROFILE_IMAGE) {
+    profileImage = DEFAULT_PROFILE_IMAGE;
+    saveProfileImage(profileImage);
+    renderProfileImage();
+    syncProfileImageInput();
+    return;
+  }
+  profileAvatarImage.hidden = true;
+  profileAvatarInitials.hidden = false;
+});
+
+brandAvatarImage.addEventListener("error", () => {
+  brandAvatarImage.hidden = true;
+  brandAvatarInitials.hidden = false;
+});
+
+if (saveProfileImageBtn && profileImageInput) {
+  saveProfileImageBtn.addEventListener("click", () => {
+    const nextImage = profileImageInput.value.trim();
+    profileImage = nextImage;
+    saveProfileImage(profileImage);
+    renderProfileImage();
+    syncProfileImageInput();
+  });
+}
+
+if (useDefaultProfileImageBtn) {
+  useDefaultProfileImageBtn.addEventListener("click", () => {
+    profileImage = DEFAULT_PROFILE_IMAGE;
+    saveProfileImage(profileImage);
+    renderProfileImage();
+    syncProfileImageInput();
+  });
+}
+
+if (fieldEvaluationPdfUpload) {
+  fieldEvaluationPdfUpload.addEventListener("change", e => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      evaluationPdfUploadDataUrl = "";
+      setEvaluationPdfStatus("Upload a PDF for extraction or paste a saved PDF path.");
+      return;
+    }
+
+    if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") {
+      evaluationPdfUploadDataUrl = "";
+      setEvaluationPdfStatus("Please upload a PDF file.", true);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      evaluationPdfUploadDataUrl = typeof reader.result === "string" ? reader.result : "";
+      if (fieldEvaluationPdf) fieldEvaluationPdf.value = file.name;
+      setEvaluationPdfStatus("PDF uploaded. Click Extract PDF Text to import comments.");
+    };
+    reader.onerror = () => {
+      evaluationPdfUploadDataUrl = "";
+      setEvaluationPdfStatus("Could not read that PDF. Try again.", true);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+if (extractEvaluationPdfBtn) {
+  extractEvaluationPdfBtn.addEventListener("click", async () => {
+    const pdfPath = String(fieldEvaluationPdf?.value || evaluationPdfUploadDataUrl || "").trim();
+    if (!pdfPath) {
+      setEvaluationPdfStatus("Add an evaluation PDF path or upload a PDF first.", true);
+      return;
+    }
+
+    if (!isPdfFile(pdfPath) && !evaluationPdfUploadDataUrl) {
+      setEvaluationPdfStatus("The evaluation PDF field must point to a .pdf file or PDF data URL.", true);
+      return;
+    }
+
+    try {
+      setEvaluationPdfStatus("Extracting text from PDF...");
+      const source = evaluationPdfUploadDataUrl || pdfPath;
+      const extractedText = await extractTextFromPdf(source);
+      if (!extractedText) {
+        setEvaluationPdfStatus("No text found in this PDF. It may be scanned images only.", true);
+        return;
+      }
+
+      if (fieldInstructorEvaluation) {
+        fieldInstructorEvaluation.value = extractedText;
+      } else if (fieldFeedback) {
+        fieldFeedback.value = extractedText;
+      }
+      setEvaluationPdfStatus("Text extracted. Review and edit before saving.");
+    } catch {
+      setEvaluationPdfStatus("Could not extract text from this PDF. Try a different file or paste text manually.", true);
+    }
+  });
+}
+
+/* =========
+  Init
+=========== */
+syncProfileImageInput();
+renderProfileImage();
+refreshAll();
+
+if (clearBtn) {
+  clearBtn.addEventListener("click", clearForm);
+}
+
+if (adminList) {
+  adminList.addEventListener("click", e => {
+    const delButton = e.target.closest("[data-del]");
+    if (delButton) {
+      const id = delButton.dataset.del;
+      const project = projects.find(p => p.id === id);
+      if (!project) return;
+      const shouldDelete = window.confirm(`Delete “${project.title}”?`);
+      if (!shouldDelete) return;
+      deleteProject(id);
+      refreshAll();
+      return;
+    }
+
+    const editButton = e.target.closest("[data-edit]");
+    if (editButton) {
+      const id = editButton.dataset.edit;
+      const project = projects.find(p => p.id === id);
+      if (!project) return;
+      fillForm(project);
+      if (adminPanel && adminPanel.hasAttribute("hidden")) {
+        adminPanel.removeAttribute("hidden");
+        if (adminToggle) {
+          adminToggle.setAttribute("aria-expanded", "true");
+        }
+      }
+    }
+  });
+}
+
+if (exportBtn) {
+  exportBtn.addEventListener("click", () => {
+    const data = JSON.stringify(projects, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = exportFilename();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+}
+
+if (importInput) {
+  importInput.addEventListener("change", async e => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    if (!Array.isArray(parsed)) throw new Error("Invalid JSON");
+
+    const normalized = parsed
+      .filter(item => item && typeof item === "object")
+      .map(item => ({
+        id: item.id || crypto.randomUUID(),
+        title: String(item.title || "").trim(),
+        type: String(item.type || "").trim(),
+        summary: String(item.summary || "").trim(),
+        bullets: Array.isArray(item.bullets) ? item.bullets.map(String).map(v => v.trim()).filter(Boolean) : [],
+        skills: Array.isArray(item.skills) ? item.skills.map(String).map(v => v.trim()).filter(Boolean) : [],
+        tags: Array.isArray(item.tags) ? item.tags.map(String).map(v => v.trim()).filter(Boolean) : [],
+        link: String(item.link || "").trim(),
+        media: String(item.media || "").trim(),
+        instructorEvaluation: Array.isArray(item.instructorEvaluation)
+          ? item.instructorEvaluation.map(String).map(v => v.trim()).filter(Boolean)
+          : Array.isArray(item.feedback)
+            ? item.feedback.map(String).map(v => v.trim()).filter(Boolean)
+            : [],
+        feedback: Array.isArray(item.feedback)
+          ? item.feedback.map(String).map(v => v.trim()).filter(Boolean)
+          : Array.isArray(item.instructorEvaluation)
+            ? item.instructorEvaluation.map(String).map(v => v.trim()).filter(Boolean)
+            : [],
+        evaluationPdf: String(item.evaluationPdf || "").trim(),
         images: Array.isArray(item.images)
           ? item.images.map(String).map(v => v.trim()).filter(Boolean)
           : String(item.image || "").trim()

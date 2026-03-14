@@ -5,7 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="google-site-verification" content="googlef11b6f1f6ba6fa53" />
   <title>Samantha Smith | Digital Marketing & Brand Strategy Portfolio</title>
-  <meta name="description" content="Portfolio of Samantha Smith showcasing digital marketing campaigns, SEO strategy, brand marketing, and creative campaign development." />
+  <meta name="description" content="Digital marketing portfolio of Samantha Smith showcasing SEO strategy, brand campaigns, and data-driven marketing projects." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Samantha Smith Portfolio" />
+  <meta property="og:title" content="Samantha Smith | Digital Marketing & Brand Strategy Portfolio" />
+  <meta property="og:description" content="Digital marketing portfolio of Samantha Smith showcasing SEO strategy, brand campaigns, and data-driven marketing projects." />
+  <meta property="og:url" content="https://samantha1686.github.io/" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://samantha1686.github.io/images/Portfolio%20preview%20imag.png" />
+  <meta property="og:image:secure_url" content="https://samantha1686.github.io/images/Portfolio%20preview%20imag.png" />
+  <meta property="og:image:width" content="1838" />
+  <meta property="og:image:height" content="788" />
+  <meta property="og:image:alt" content="Samantha Smith digital marketing portfolio project preview" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Samantha Smith | Digital Marketing & Brand Strategy Portfolio" />
+  <meta name="twitter:description" content="Digital marketing portfolio of Samantha Smith showcasing SEO strategy, brand campaigns, and data-driven marketing projects." />
+  <meta name="twitter:image" content="https://samantha1686.github.io/images/Portfolio%20preview%20imag.png" />
+  <meta name="twitter:image:alt" content="Samantha Smith digital marketing portfolio project preview" />
   <link rel="stylesheet" href="styles.css?v=20260307d" />
 </head>
 <body>
@@ -95,7 +111,7 @@
       <div class="container section-head">
         <div>
           <h2>Projects</h2>
-          <p class="muted">Click a project to view details and feedback.</p>
+          <p class="muted">Use each card to jump to its on-page section with full details and instructor evaluation.</p>
         </div>
 
         <div class="filters">
@@ -107,7 +123,15 @@
       </div>
 
       <div class="container">
+        <nav id="projectToc" class="project-toc" aria-label="Project quick links"></nav>
+      </div>
+
+      <div class="container">
         <div id="projectGrid" class="grid" aria-live="polite"></div>
+      </div>
+
+      <div class="container">
+        <div id="projectSections" class="project-sections" aria-live="polite"></div>
       </div>
     </section>
 
@@ -210,7 +234,139 @@ I’d love to connect and share more.
     </div>
   </footer>
 
+  <button class="btn btn-primary admin-toggle" id="adminToggle" type="button" aria-expanded="false" aria-controls="adminPanel">
+    Edit Projects
+  </button>
+
+  <aside id="adminPanel" class="admin" hidden>
+    <div class="admin-head">
+      <h2>Project Editor</h2>
+      <p class="muted">Add project details, paste instructor evaluation text, attach an evaluation PDF, or extract text from a simple PDF.</p>
+    </div>
+
+    <section class="admin-section" aria-labelledby="profileImageHeading">
+      <h3 id="profileImageHeading">Profile Image</h3>
+      <div class="form-row">
+        <label for="profileImageInput">
+          Profile image path or URL
+          <input id="profileImageInput" class="input" type="text" placeholder="images/profile/your-photo.jpg" />
+        </label>
+      </div>
+      <div class="admin-inline-actions">
+        <button id="saveProfileImageBtn" class="btn btn-ghost" type="button">Save Profile Image</button>
+        <button id="useDefaultProfileImageBtn" class="btn btn-ghost" type="button">Use Default Image</button>
+      </div>
+    </section>
+
+    <section class="admin-section" aria-labelledby="projectEditorHeading">
+      <h3 id="projectEditorHeading">Add or Edit Project</h3>
+      <form id="projectForm">
+        <input id="projectId" type="hidden" />
+
+        <div class="form-row two">
+          <label for="title">
+            Project title
+            <input id="title" class="input" type="text" required />
+          </label>
+          <label for="type">
+            Project type
+            <input id="type" class="input" type="text" required />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label for="summary">
+            Summary
+            <textarea id="summary" class="textarea" rows="4" required></textarea>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label for="bullets">
+            What I did
+            <textarea id="bullets" class="textarea" rows="5" placeholder="One bullet per line"></textarea>
+          </label>
+        </div>
+
+        <div class="form-row two">
+          <label for="skills">
+            Skills
+            <input id="skills" class="input" type="text" placeholder="SEO, Canva, Campaign Strategy" />
+          </label>
+          <label for="tags">
+            Tags
+            <input id="tags" class="input" type="text" placeholder="Brand, Campaign, Social Media" />
+          </label>
+        </div>
+
+        <div class="form-row two">
+          <label for="link">
+            Project link
+            <input id="link" class="input" type="text" placeholder="https://... or relative path" />
+          </label>
+          <label for="media">
+            Project media
+            <input id="media" class="input" type="text" placeholder="PDF, PPTX, XLSX, or relative path" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label for="instructorEvaluation">
+            Instructor evaluation
+            <textarea id="instructorEvaluation" class="textarea" rows="6" placeholder="Paste comments here, one comment per line"></textarea>
+          </label>
+          <p class="muted field-note">Paste text directly, or use the PDF tools below to pull text into this field.</p>
+        </div>
+
+        <div class="form-row">
+          <label for="evaluationPdf">
+            Instructor evaluation PDF
+            <input id="evaluationPdf" class="input" type="text" placeholder="Relative path, URL, or uploaded PDF data URL" />
+          </label>
+          <div class="admin-inline-actions">
+            <label class="btn btn-ghost file-btn" for="evaluationPdfUpload">
+              Upload Evaluation PDF
+              <input id="evaluationPdfUpload" class="file-input" type="file" accept="application/pdf,.pdf" />
+            </label>
+            <button id="extractEvaluationPdfBtn" class="btn btn-ghost" type="button">Extract PDF Text</button>
+          </div>
+          <p id="evaluationPdfStatus" class="muted field-note">Upload a PDF for extraction or paste a saved PDF path.</p>
+        </div>
+
+        <div class="form-row">
+          <label for="images">
+            Project images
+            <textarea id="images" class="textarea" rows="4" placeholder="One image path per line"></textarea>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Save Project</button>
+          <button id="clearBtn" class="btn btn-ghost" type="button">Clear Form</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="admin-section" aria-labelledby="projectToolsHeading">
+      <h3 id="projectToolsHeading">Project Tools</h3>
+      <div class="admin-actions">
+        <button id="exportBtn" class="btn btn-ghost" type="button">Export Projects</button>
+        <label class="btn btn-ghost file-btn" for="importInput">
+          Import Projects
+          <input id="importInput" class="file-input" type="file" accept="application/json" />
+        </label>
+        <button id="resetBtn" class="btn btn-danger" type="button">Reset to Defaults</button>
+      </div>
+    </section>
+
+    <section class="admin-list" aria-labelledby="savedProjectsHeading">
+      <h3 id="savedProjectsHeading">Saved Projects</h3>
+      <div id="adminList"></div>
+    </section>
+  </aside>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="app.js?v=20260308a"></script>
+  <script src="app.js?v=20260314c"></script>
 </body>
 </html>
