@@ -297,36 +297,52 @@ h1{
   font-weight:700;
 }
 .project-toc{
-  margin: 0 0 16px;
-  padding: 10px;
+  margin: 0 0 18px;
+  padding: 12px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  border: 1px solid rgba(248,239,255,.35);
+  gap: 10px;
+  border: 2px solid rgba(255,226,138,.9);
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  background: linear-gradient(135deg, rgba(255,226,138,.22), rgba(124,92,255,.2));
+  box-shadow: 0 12px 28px rgba(0,0,0,.28);
+  counter-reset: tocitem;
 }
 .project-toc-link{
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: .02em;
-  padding: 7px 11px;
+  padding: 8px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(248,239,255,.45);
-  background: rgba(22,8,47,.82);
+  border: 1px solid rgba(255,244,196,.9);
+  background: rgba(31,11,62,.9);
   color: #f8f1ff;
   transition: transform .12s ease, background .12s ease, border-color .12s ease;
 }
+.project-toc-link::before{
+  counter-increment: tocitem;
+  content: counter(tocitem);
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #2f164d;
+  background: #ffe28a;
+}
 .project-toc-link:hover{
-  background: rgba(78,34,136,.92);
-  border-color: rgba(255,255,255,.95);
+  background: rgba(95,43,160,.96);
+  border-color: #ffffff;
   transform: translateY(-1px);
 }
 .project-toc-link:focus-visible{
-  outline: 2px solid #ffffff;
+  outline: 2px solid #ffe28a;
   outline-offset: 2px;
 }
 .project-toc-empty{
