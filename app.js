@@ -84,19 +84,38 @@ function defaultProjects() {
       id: crypto.randomUUID(),
       title: GRAMMY_PROJECT_TITLE,
       type: "Campaign",
-      summary: "Developed a brand-focused social campaign concept promoting a limited-edition merchandise drop.",
+      summary: "Developed a paid media campaign strategy for a GRAMMY merch drop, combining audience persona alignment, multi-platform channel strategy, and performance metric analysis to drive merch sales.",
       bullets: [
-        "Created campaign theme and messaging to connect award-night culture with fan fashion",
-        "Designed visual concepts and social copy in Canva",
-        "Identified target audience segments and engagement-focused content ideas"
+        "Built targeting logic and channel strategy across Instagram, TikTok, and Pinterest aligned to audience personas",
+        "Analyzed campaign KPIs including CTR, CPC, and CPA to evaluate performance and identify optimization opportunities",
+        "Developed recommendations to improve paid media performance based on metric interpretation"
       ],
-      skills: ["Brand Storytelling", "Social Media Marketing", "Campaign Strategy", "Canva"],
-      tags: ["Brand", "Campaign", "Social Media"],
+      skills: [
+        "Paid Media Campaign Strategy",
+        "Audience Targeting and Persona Alignment",
+        "Digital Advertising Platform Selection",
+        "KPI Analysis (CTR, CPC, CPA)",
+        "Performance Marketing Optimization",
+        "Marketing Analytics and Campaign Evaluation"
+      ],
+      tags: ["Brand", "Campaign", "Paid Media"],
       link: "",
       media: GRAMMY_MEDIA,
+      evaluationPdf: "images/projects/Project 7 feedback Grammys.pdf",
+      images: [],
+      instructorEvaluation: [
+        "This project successfully combined strategic marketing thinking with performance analytics.",
+        "The campaign demonstrated strong alignment between audience persona, platform selection, and messaging designed to drive merch sales.",
+        "Clear targeting logic and channel strategy across Instagram, TikTok, and Pinterest reflected real-world paid media planning.",
+        "The project also showed strong analytical ability through accurate interpretation of campaign metrics such as CTR, CPC, and CPA.",
+        "Thoughtful optimization recommendations were provided to improve overall campaign performance."
+      ],
       feedback: [
-        "Strong concept and cohesive theme—tighten the CTA to make the next action clearer.",
-        "Add 1–2 example posts or mock ads as proof of execution."
+        "This project successfully combined strategic marketing thinking with performance analytics.",
+        "The campaign demonstrated strong alignment between audience persona, platform selection, and messaging designed to drive merch sales.",
+        "Clear targeting logic and channel strategy across Instagram, TikTok, and Pinterest reflected real-world paid media planning.",
+        "The project also showed strong analytical ability through accurate interpretation of campaign metrics such as CTR, CPC, and CPA.",
+        "Thoughtful optimization recommendations were provided to improve overall campaign performance."
       ],
       createdAt: Date.now()
     },
