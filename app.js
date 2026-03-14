@@ -1289,7 +1289,7 @@ function renderTocAndSections(filtered) {
 
   // TOC quick-links
   projectToc.innerHTML = filtered.map(p =>
-    `<a class="project-toc-link" href="#section-${esc(p.id)}">${esc(p.title)}</a>`
+    `<a class="project-toc-link" href="#section-${esc(p.id)}">${esc(String(p.title || "").replace(/^Project\s+\d+\s*[-:]\s*/i, ""))}</a>`
   ).join("");
 
   // Full on-page sections
