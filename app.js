@@ -68,7 +68,10 @@ const PROJECT_MEDIA_LIBRARY = {
 };
 const CHARITY_PROJECT_1_TITLE = "Project 1 - Charity: Water Landing Page Design";
 const CHARITY_PROJECT_2_TITLE = "Project 2 - Charity: Water Gamified Mobile Concept";
-const CHARITY_PROJECT_3_TITLE = "charity: water Project 3 — Landing Page";
+const CHARITY_PROJECT_3_TITLE = "Project 3 - Charity: Water Website Deployment (HTML/CSS)";
+const PROJECT_6_TITLE = "Project 6 - Reflecting on AI";
+const PROJECT_6_MEDIA = "images/projects/Project 6_ Reflecting on AI.pdf";
+const PROJECT_6_FEEDBACK_PDF = "images/projects/Project 6 Feedback GCA.pdf";
 const FILM_PERMIT_PROJECT_TITLE = "Film Permit Analysis Project";
 
 function defaultProjects() {
@@ -97,6 +100,7 @@ function defaultProjects() {
     project9Template(),
     intelCsrProjectTemplate(),
     intelExcelProjectTemplate(),
+    project6Template(),
     {
       id: crypto.randomUUID(),
       title: CHARITY_PROJECT_1_TITLE,
@@ -180,20 +184,39 @@ function defaultProjects() {
     {
       id: crypto.randomUUID(),
       title: CHARITY_PROJECT_3_TITLE,
-      type: "Landing Page",
-      summary: "Built a second landing page direction with a refined structure and message hierarchy.",
+      type: "Web Development",
+      summary: "Deployed a live charity: water website using HTML and CSS via GitHub, demonstrating front-end development skills, prompt engineering, and iterative debugging with AI assistance.",
       bullets: [
-        "Refined section flow, headline structure, and CTA placement",
-        "Adjusted copy blocks for clarity and stronger narrative momentum",
-        "Prepared final export for portfolio presentation"
+        "Built and deployed a functional, accessible website using HTML and CSS on GitHub Pages",
+        "Used AI as a coding assistant and tutor to iterate on design and resolve technical challenges",
+        "Documented learning process and technical reflections in interview-style professional responses"
       ],
-      skills: ["Landing Page Strategy", "Content Design", "Brand Messaging"],
-      tags: ["Nonprofit", "Landing Page", "UX Copy"],
+      skills: [
+        "Front-End Web Development (HTML & CSS)",
+        "Website Deployment via GitHub",
+        "Prompt Engineering",
+        "Iterative Design and Debugging",
+        "Technical Problem Solving",
+        "Digital Project Documentation"
+      ],
+      tags: ["Web Development", "GitHub", "HTML/CSS"],
       link: "",
       media: "images/projects/charity-water-project-3-landing-page.pdf",
+      evaluationPdf: "images/projects/Project 3 Feedback GCA.pdf",
       images: ["images/projects/charity-water-donation-landing-page-campaign.png"],
+      instructorEvaluation: [
+        "This project demonstrated strong technical growth and successful website deployment.",
+        "The live GitHub site confirmed the ability to implement HTML and CSS while maintaining a functional and accessible design.",
+        "Reflections showed thoughtful learning about prompt precision, iteration, and using AI as both a coding assistant and tutor.",
+        "The project also communicated technical skills effectively in interview-style responses and professional reflections.",
+        "Feedback suggested including specific examples of technical challenges solved during development to further highlight problem-solving skills."
+      ],
       feedback: [
-        "Good structure—consider a compact trust signal section near the primary CTA."
+        "This project demonstrated strong technical growth and successful website deployment.",
+        "The live GitHub site confirmed the ability to implement HTML and CSS while maintaining a functional and accessible design.",
+        "Reflections showed thoughtful learning about prompt precision, iteration, and using AI as both a coding assistant and tutor.",
+        "The project also communicated technical skills effectively in interview-style responses and professional reflections.",
+        "Feedback suggested including specific examples of technical challenges solved during development to further highlight problem-solving skills."
       ],
       createdAt: Date.now()
     },
@@ -316,6 +339,35 @@ function intelExcelProjectTemplate() {
   };
 }
 
+function project6Template() {
+  return {
+    id: crypto.randomUUID(),
+    title: PROJECT_6_TITLE,
+    type: "Reflection",
+    summary: "Written reflection examining how AI tools are transforming digital marketing workflows, content strategy, and creative decision-making.",
+    bullets: [
+      "Analyzed the role of AI in modern content creation, campaign strategy, and audience targeting",
+      "Evaluated ethical considerations and limitations of AI in marketing contexts",
+      "Reflected on personal experience using AI tools throughout the course and professional development"
+    ],
+    skills: [
+      "Critical Thinking",
+      "AI Tool Proficiency",
+      "Digital Marketing Strategy",
+      "Professional Writing",
+      "Ethical Reasoning"
+    ],
+    tags: ["AI", "Strategy", "Reflection"],
+    link: "",
+    media: PROJECT_6_MEDIA,
+    evaluationPdf: PROJECT_6_FEEDBACK_PDF,
+    images: [],
+    instructorEvaluation: [],
+    feedback: [],
+    createdAt: Date.now()
+  };
+}
+
 function charityProjectTemplates() {
   return [
     {
@@ -382,20 +434,39 @@ function charityProjectTemplates() {
     {
       id: crypto.randomUUID(),
       title: CHARITY_PROJECT_3_TITLE,
-      type: "Landing Page",
-      summary: "Built a second landing page direction with a refined structure and message hierarchy.",
+      type: "Web Development",
+      summary: "Deployed a live charity: water website using HTML and CSS via GitHub, demonstrating front-end development skills, prompt engineering, and iterative debugging with AI assistance.",
       bullets: [
-        "Refined section flow, headline structure, and CTA placement",
-        "Adjusted copy blocks for clarity and stronger narrative momentum",
-        "Prepared final export for portfolio presentation"
+        "Built and deployed a functional, accessible website using HTML and CSS on GitHub Pages",
+        "Used AI as a coding assistant and tutor to iterate on design and resolve technical challenges",
+        "Documented learning process and technical reflections in interview-style professional responses"
       ],
-      skills: ["Landing Page Strategy", "Content Design", "Brand Messaging"],
-      tags: ["Nonprofit", "Landing Page", "UX Copy"],
+      skills: [
+        "Front-End Web Development (HTML & CSS)",
+        "Website Deployment via GitHub",
+        "Prompt Engineering",
+        "Iterative Design and Debugging",
+        "Technical Problem Solving",
+        "Digital Project Documentation"
+      ],
+      tags: ["Web Development", "GitHub", "HTML/CSS"],
       link: "",
       media: "images/projects/charity-water-project-3-landing-page.pdf",
+      evaluationPdf: "images/projects/Project 3 Feedback GCA.pdf",
       images: ["images/projects/charity-water-donation-landing-page-campaign.png"],
+      instructorEvaluation: [
+        "This project demonstrated strong technical growth and successful website deployment.",
+        "The live GitHub site confirmed the ability to implement HTML and CSS while maintaining a functional and accessible design.",
+        "Reflections showed thoughtful learning about prompt precision, iteration, and using AI as both a coding assistant and tutor.",
+        "The project also communicated technical skills effectively in interview-style responses and professional reflections.",
+        "Feedback suggested including specific examples of technical challenges solved during development to further highlight problem-solving skills."
+      ],
       feedback: [
-        "Good structure—consider a compact trust signal section near the primary CTA."
+        "This project demonstrated strong technical growth and successful website deployment.",
+        "The live GitHub site confirmed the ability to implement HTML and CSS while maintaining a functional and accessible design.",
+        "Reflections showed thoughtful learning about prompt precision, iteration, and using AI as both a coding assistant and tutor.",
+        "The project also communicated technical skills effectively in interview-style responses and professional reflections.",
+        "Feedback suggested including specific examples of technical challenges solved during development to further highlight problem-solving skills."
       ],
       createdAt: Date.now()
     }
@@ -651,11 +722,13 @@ function canonicalProjectKey(project) {
   if (key.includes("grammy") && key.includes("social media")) return "grammy";
   if (key.includes("ab testing") || key.includes("recording academy")) return "ab-testing";
   if (key.includes("project 9") || key.includes("cerave seo") || key.includes("linkedin seo case study")) return "project-9-seo";
+  if (key.includes("project 6") && key.includes("reflect")) return "project-6-reflect";
+  if (key.includes("project 6 reflecting on ai")) return "project-6-reflect";
   if (key.includes("intel csr metrics") || key.includes("sustainability data analysis")) return "intel-csr";
   if (key.includes("sustainability impact analysis") || key.includes("excel dataset")) return "intel-excel";
-  if (key.includes("charity water") && key.includes("project 1")) return "charity-1";
-  if (key.includes("charity water") && key.includes("project 2")) return "charity-2";
-  if (key.includes("charity water") && key.includes("project 3")) return "charity-3";
+  if ((key.includes("charity water") || key.includes("charity")) && key.includes("project 1")) return "charity-1";
+  if ((key.includes("charity water") || key.includes("charity")) && key.includes("project 2")) return "charity-2";
+  if ((key.includes("charity water") || key.includes("charity")) && key.includes("project 3")) return "charity-3";
   if (key.includes("charity water project 1") || key.includes("mockup landing page")) return "charity-1";
   if (key.includes("charity water project 2") || key.includes("game concept")) return "charity-2";
   if (key.includes("charity water project 3")) return "charity-3";
